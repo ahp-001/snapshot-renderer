@@ -6,24 +6,38 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.text({
     type: "*/*",
-    limit: "20mb"
+    limit: "25mb"
 }));
 
 app.get("/", (req, res) => {
-    res.send("Snapshot Renderer is Running 🚀");
+
+    res.json({
+        service: "Snapshot Renderer",
+        status: "running"
+    });
+
 });
 
 app.post("/render", (req, res) => {
 
-    console.log(req.body);
+    const svg = req.body || "";
+
+    console.log("SVG Length:", svg.length);
 
     res.json({
+
         success: true,
-        length: req.body.length
+
+        received: svg.length,
+
+        message: "SVG received successfully"
+
     });
 
 });
 
 app.listen(PORT, () => {
-    console.log(`Server running on ${PORT}`);
+
+    console.log("Server running on " + PORT);
+
 });
